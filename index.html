@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Screw Techy | AI Explorer & Islamic Thinker</title>
+  <style>
+    /* Ainjmal Style CSS */
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Inter:wght@400;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom, #f9f6f1, #eae7de);
+      color: #222;
+      line-height: 1.6;
+    }
+
+    header {
+      background-image: url('https://www.transparenttextures.com/patterns/arabesque.png');
+      background-color: #fff;
+      text-align: center;
+      padding: 3rem 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    header h1 {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 2.8rem;
+      color: #1a1a1a;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      color: #666;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1rem 0;
+      background: #fdfdfd;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #444;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #007b7f;
+    }
+
+    section {
+      padding: 2.5rem 1rem;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    section h2 {
+      font-size: 1.8rem;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+      color: #2e2e2e;
+    }
+
+    section p {
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .card {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      margin-bottom: 2rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: #f4f4f4;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .quote {
+      font-style: italic;
+      color: #555;
+      border-left: 4px solid #007b7f;
+      padding-left: 1rem;
+      margin: 2rem 0;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #007b7f;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      text-decoration: none;
+      margin-top: 1rem;
+    }
+
+    .btn:hover {
+      background: #005f60;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      header h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Screw Techy</h1>
+    <p>AI Explorer • Traveler • Teacher • Islamic Scholar</p>
+  </header>
+
+  <nav>
+    <a href="#about">About</a>
+    <a href="#journey">Journey</a>
+    <a href="#teachings">Teachings</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <section id="about">
+    <h2>About</h2>
+    <div class="card">
+      <p>Screw Techy is a soul who bridges the realms of cutting-edge artificial intelligence and timeless spiritual wisdom. As an explorer of both code and culture, he travels through cities, data, and divine knowledge with equal passion.</p>
+      <p>Rooted in Islamic tradition yet future-minded, his journey blends Sufi calm with scientific curiosity.</p>
+      <div class="quote">"Knowledge is not just to know, but to transform the self." — Screw Techy</div>
+    </div>
+  </section>
+
+  <section id="journey">
+    <h2>Journey</h2>
+    <div class="card">
+      <p><strong>AI Explorer:</strong> He explores machine learning, NLP, and generative intelligence. His mission is to ensure AI serves humanity ethically and wisely.</p>
+      <p><strong>Traveler:</strong> From the bazaars of Istanbul to the clouded mountains of Himachal, his journeys inspire his thoughts, work, and teachings.</p>
+      <p><strong>Spiritual Seeker:</strong> Studied under traditional Islamic scholars and continues to reflect on Qur'anic meanings and Hadith with depth.</p>
+    </div>
+  </section>
+
+  <section id="teachings">
+    <h2>Teachings</h2>
+    <div class="card">
+      <p>As a teacher, Screw Techy believes in nurturing minds — not filling them. He conducts AI workshops, spirituality retreats, and online reflections on Qur'anic science and ethical tech.</p>
+      <a href="#contact" class="btn">Invite to Speak</a>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <div class="card">
+      <p>Reach out for collaborations, discussions, or soulful coffee chats.</p>
+      <p><strong>Email:</strong> screwtechy@email.com</p>
+      <p><strong>Instagram:</strong> @screwtechy</p>
+      <p><strong>Location:</strong> Everywhere and Nowhere 🌍</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Screw Techy. In pursuit of knowledge and presence 🌙</p>
+  </footer>
+
+  <script>
+    // Light JS for scroll animation
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const id = this.getAttribute('href').slice(1);
+        document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+  </html>
