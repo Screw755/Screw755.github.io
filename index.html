@@ -1,143 +1,156 @@
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Anonymous Chat with Image</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>AnonBoard - Anonymous Group Messaging</title>
   <style>
-    body { font-family: 'Inter', sans-serif; }
-    .custom-scrollbar::-webkit-scrollbar { width: 8px; }
-    .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #555; }
-  </style>
-</head>
-<body class="bg-gray-50 dark:bg-gray-800">
-
-  <header class="bg-gradient-to-r from-purple-600 to-indigo-700 text-white p-4 text-center shadow-lg rounded-b-lg">
-    <h1 class="text-3xl font-bold">Anonymous Chat</h1>
-    <p class="text-sm mt-1">Your ID: <span id="userId" class="font-mono bg-purple-700 px-2 py-1 rounded-full text-xs"></span></p>
-  </header>
-
-  <main id="messages" class="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar" style="height: 70vh;">
-    <div class="text-center text-gray-500 mt-10">Loading messages...</div>
-  </main>
-
-  <footer class="p-4 bg-white border-t border-gray-200 shadow-inner rounded-t-lg">
-    <form id="chatForm" class="flex flex-col sm:flex-row gap-3">
-      <input id="messageInput" type="text" placeholder="Type your anonymous message..."
-        class="flex-1 p-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-200 ease-in-out"/>
-      <input id="imageInput" type="file" accept="image/*"
-        class="border border-gray-300 p-2 rounded-lg text-sm"/>
-      <button type="submit"
-        class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-200 ease-in-out">
-        Send
-      </button>
-    </form>
-  </footer>
-
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js"></script>
-
-  <script>
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT.appspot.com",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.getAuth();
-    const db = firebase.getFirestore();
-    const storage = firebase.getStorage();
-
-    let currentUserId = '';
-
-    firebase.signInAnonymously(auth)
-      .catch((err) => console.error(err));
-
-    firebase.onAuthStateChanged(auth, (user) => {
-      if (user) {
-        currentUserId = user.uid;
-        document.getElementById('userId').textContent = currentUserId;
-        loadMessages();
-      }
-    });
-
-    function loadMessages() {
-      const messagesRef = firebase.collection(db, 'messages');
-      const q = firebase.query(messagesRef, firebase.orderBy('timestamp'));
-
-      firebase.onSnapshot(q, (snapshot) => {
-        const messagesContainer = document.getElementById('messages');
-        messagesContainer.innerHTML = '';
-        snapshot.forEach((doc) => {
-          const msg = doc.data();
-          const isOwn = msg.userId === currentUserId;
-          const messageDiv = document.createElement('div');
-          messageDiv.className = `flex ${isOwn ? 'justify-end' : 'justify-start'}`;
-          let contentHTML = `
-            <div class="max-w-[70%] p-3 rounded-xl shadow-md ${isOwn ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-900'}">
-              <div class="font-semibold text-sm mb-1 opacity-80">
-                ${isOwn ? 'You' : 'User ' + msg.userId.substring(0, 8) + '...'}
-              </div>`;
-
-          if (msg.text) {
-            contentHTML += `<p class="text-base break-words">${msg.text}</p>`;
-          }
-
-          if (msg.imageUrl) {
-            contentHTML += `<img src="${msg.imageUrl}" class="mt-2 rounded-lg max-w-full h-auto" />`;
-          }
-
-          contentHTML += `
-              <div class="text-xs mt-1 text-right opacity-70">
-                ${msg.timestamp?.toDate ? msg.timestamp.toDate().toLocaleTimeString() : 'Sending...'}
-              </div>
-            </div>`;
-          messageDiv.innerHTML = contentHTML;
-          messagesContainer.appendChild(messageDiv);
-        });
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-      });
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
     }
 
-    document.getElementById('chatForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const messageInput = document.getElementById('messageInput');
-      const imageInput = document.getElementById('imageInput');
-      const text = messageInput.value.trim();
-      const file = imageInput.files[0];
+    header {
+      background-color: #333;
+      color: white;
+      padding: 15px 20px;
+      text-align: center;
+    }
 
-      if (!text && !file) return;
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
 
-      let imageUrl = null;
+    .message-box {
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
 
-      if (file) {
-        const storageRef = firebase.ref(firebase.getStorage(), `images/${currentUserId}/${Date.now()}_${file.name}`);
-        await firebase.uploadBytes(storageRef, file);
-        imageUrl = await firebase.getDownloadURL(storageRef);
+    .message-box img {
+      max-width: 100%;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+
+    .form-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 80px;
+      padding: 10px;
+      font-size: 16px;
+      resize: none;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    input[type="file"] {
+      margin-top: 10px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #333;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #555;
+    }
+
+    .timestamp {
+      color: gray;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>AnonBoard 📬</h1>
+    <p>Send anonymous messages with optional images. Everyone can see everything!</p>
+  </header>
+
+  <div class="container">
+    <div class="form-container">
+      <textarea id="messageInput" placeholder="Type your anonymous message..."></textarea>
+      <input type="file" id="imageInput" accept="image/*" />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <div id="messages"></div>
+  </div>
+
+  <script>
+    const messagesDiv = document.getElementById('messages');
+
+    function sendMessage() {
+      const text = document.getElementById('messageInput').value.trim();
+      const imageFile = document.getElementById('imageInput').files[0];
+
+      if (!text && !imageFile) {
+        alert('Please write a message or upload an image!');
+        return;
       }
 
-      await firebase.addDoc(firebase.collection(db, 'messages'), {
-        text: text || null,
-        imageUrl: imageUrl || null,
-        userId: currentUserId,
-        timestamp: firebase.serverTimestamp()
-      });
+      const reader = new FileReader();
 
-      messageInput.value = '';
-      imageInput.value = '';
-    });
+      if (imageFile) {
+        reader.onload = function (e) {
+          addMessage(text, e.target.result);
+        };
+        reader.readAsDataURL(imageFile);
+      } else {
+        addMessage(text, null);
+      }
+
+      // Clear input
+      document.getElementById('messageInput').value = '';
+      document.getElementById('imageInput').value = '';
+    }
+
+    function addMessage(text, imageData) {
+      const messageBox = document.createElement('div');
+      messageBox.className = 'message-box';
+
+      const messageContent = document.createElement('div');
+      messageContent.innerText = text;
+
+      messageBox.appendChild(messageContent);
+
+      if (imageData) {
+        const img = document.createElement('img');
+        img.src = imageData;
+        messageBox.appendChild(img);
+      }
+
+      const timestamp = document.createElement('div');
+      timestamp.className = 'timestamp';
+      timestamp.innerText = 'Sent: ' + new Date().toLocaleString();
+
+      messageBox.appendChild(timestamp);
+
+      messagesDiv.prepend(messageBox); // Add on top
+    }
   </script>
-
 </body>
 </html>
